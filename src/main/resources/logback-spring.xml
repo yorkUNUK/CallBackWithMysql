@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 控制台输出日志 -->
+    <appender name="console-stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>
+                %boldWhite(%d) |-%highlight(%p) %boldMagenta(${PID:- }) in %boldGreen(%-50(%logger[%thread])) : %boldYellow(%m%n)
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--全局日志-->
+    <appender name="file-stdout" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 采用追加日志的方式 -->
+        <append>true</append>
+        <!-- 每天产生一个日志文件 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/york_callback.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出,%d:日期;%thread:线程名;%-5level：级别,从左显示5个字符宽度,可以自定义模板类 -->
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} |-%-5level ${PID:- } in %-50(%logger[%thread]) : %msg%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--旗舰版回调日志-->
+    <appender name="ultimate" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
+                <marker>ULTIMATE</marker>
+            </evaluator>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/ultimate/ultimate.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} |-%-5level ${PID:- } in %-50(%logger[%thread]) : %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--工具版回调日志-->
+    <appender name="openapi" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
+                <marker>OPENAPI</marker>
+            </evaluator>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/openapi/openapi.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} |-%-5level ${PID:- } in %-50(%logger[%thread]) : %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--上上签签署接口回调日志-->
+    <appender name="bestSign" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
+                <marker>BESTSIGN</marker>
+            </evaluator>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/bestSign/bestSign.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} |-%-5level ${PID:- } in %-50(%logger[%thread]) : %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 定义日志的级别 引用appender -->
+    <root level="INFO">
+        <appender-ref ref="console-stdout"/>
+        <appender-ref ref="file-stdout"/>
+        <appender-ref ref="ultimate"/>
+        <appender-ref ref="openapi"/>
+        <appender-ref ref="bestSign"/>
+    </root>
+
+</configuration>
